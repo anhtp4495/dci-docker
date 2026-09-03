@@ -1,0 +1,12 @@
+FROM otx-3rd-libs:debian12
+
+# docker build -f Dockerfile.debian12.diagmanager.build -t diagmanager:debian12 .
+
+COPY --from=vwmcd:debian12 /opt/vw /opt/vw
+
+# Install build tools
+
+WORKDIR /opt
+
+# Default command
+CMD ["/bin/sh"]

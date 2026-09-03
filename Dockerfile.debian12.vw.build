@@ -1,0 +1,20 @@
+FROM debian:12
+# docker build -f Dockerfile.debian12.vw.build -t vwmcd:debian12 .
+
+# Install build tools
+RUN apt-get update && apt-get install -y \
+    rpm \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY vw/27/x64/DSAL09/*.rpm /sources/
+
+WORKDIR /sources
+
+RUN rpm -ivh --nodeps libmcdkernel-x64-l09-27.0.0-1.rpm
+
+RUN rpm -ivh --nodeps mcd-libboost-x64-l09-1.87.0-5.rpm
+
+WORKDIR /home/prodis/
+
+# Default command
+CMD ["/bin/sh"]

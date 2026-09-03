@@ -1,0 +1,7 @@
+include:
+  # docker compose build builder-ubi9
+  - ./docker-compose/redhat-ubi9.yml
+  # docker compose run --rm builder-debian12
+  - ./docker-compose/debian12.yml
+  # docker compose run --rm builder-alpine-3.22
+  - ./docker-compose/alpine-3.22.yml

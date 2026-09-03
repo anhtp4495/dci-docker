@@ -1,0 +1,45 @@
+drwxr-xr-x root/root         0 2026-04-16 13:16 home/
+drwxr-xr-x root/root         0 2026-04-16 13:16 home/vw/
+drwxr-xr-x root/root         0 2026-04-16 13:16 home/vw/cfg/
+-rw-r--r-- root/root     20016 2026-04-16 08:55 home/vw/cfg/mcdapps.txt
+lrwxrwxrwx root/root         0 2026-04-16 13:16 home/vw/cfg/McdKernel.jar -> /opt/vw/java/McdKernel.jar
+lrwxrwxrwx root/root         0 2026-04-16 13:16 home/vw/cfg/McdKernelUnitConversion.jar -> /opt/vw/java/McdKernelUnitConversion.jar
+-rw-r--r-- root/root      7594 2026-04-16 10:17 home/vw/cfg/converter.ini
+-rw-r--r-- root/root       828 2026-04-16 08:55 home/vw/cfg/TESTERID.INI
+-rw-r--r-- root/root      6882 2026-04-16 08:55 home/vw/cfg/MCD3D_SERVER.INI
+lrwxrwxrwx root/root         0 2026-04-16 13:16 home/vw/cfg/ASAMJavaInterfaces.jar -> /opt/vw/java/ASAMJavaInterfaces.jar
+-rw-r--r-- root/root      2247 2026-04-16 09:05 home/vw/cfg/MCD3D_PROJECTS.INI
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/java/
+-rwxr-xr-x root/root    836889 2026-04-16 08:55 opt/vw/java/McdKernel.jar
+-rwxr-xr-x root/root      6695 2026-04-16 08:55 opt/vw/java/McdKernelUnitConversion.jar
+-rwxr-xr-x root/root    189820 2026-04-16 08:55 opt/vw/java/ASAMJavaInterfaces.jar
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/doc/
+-rw-r--r-- root/root      4327 2026-04-16 10:17 opt/vw/doc/LicenseNotes_VWAG_VW-MCD_ODXConverter_27.0.0.txt
+-rw-r--r-- root/root     20717 2026-04-16 10:17 opt/vw/doc/CommLicenseNotes_VWAG_VW-MCD_ODXConverter_27.0.0.txt
+-rw-r--r-- root/root      9206 2026-04-16 08:55 opt/vw/doc/CommLicenseNotes_VWAG_VW-MCD_MCDKernel_27.0.0.txt
+-rw-r--r-- root/root      7066 2026-04-16 08:55 opt/vw/doc/LicenseNotes_VWAG_VW-MCD_MCDKernel_27.0.0.txt
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/lib/
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libboost_thread.so -> libboost_thread.so.1.87.0
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libmcdkernel.so -> libmcdkernel.so.27.0.0
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libboost_filesystem.so -> libboost_filesystem.so.1.87.0
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libsystemparameterext.so -> libsystemparameterext.so.27.0.0
+-rwxr-xr-x root/root    159672 2026-04-16 09:05 opt/vw/lib/libsystemparameterext.so.27.0.0
+-rwxr-xr-x root/root  22459384 2026-04-16 09:05 opt/vw/lib/libmcdkernel.so.27.0.0
+-rwxr-xr-x root/root     34248 2025-04-25 09:29 opt/vw/lib/libboost_atomic.so.1.87.0
+-rwxr-xr-x root/root    178296 2025-04-25 09:29 opt/vw/lib/libboost_filesystem.so.1.87.0
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libboost_atomic.so -> libboost_atomic.so.1.87.0
+-rwxr-xr-x root/root    156208 2025-04-25 09:29 opt/vw/lib/libboost_thread.so.1.87.0
+-rwxr-xr-x root/root   2361792 2026-04-16 10:28 opt/vw/lib/libLtXml20.so
+-rwxr-xr-x root/root      9304 2025-04-25 09:29 opt/vw/lib/libboost_system.so.1.87.0
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/lib/libboost_system.so -> libboost_system.so.1.87.0
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/tools/
+drwxr-xr-x root/root         0 2026-04-16 13:16 opt/vw/tools/bin/
+lrwxrwxrwx root/root         0 2026-04-16 13:16 opt/vw/tools/bin/odxconverter -> converter
+-rwxr-xr-x root/root  17083112 2026-04-16 10:28 opt/vw/tools/bin/converter
+drwxr-xr-x root/root         0 2026-04-16 13:16 usr/
+drwxr-xr-x root/root         0 2026-04-16 13:16 usr/share/
+drwxr-xr-x root/root         0 2026-04-16 13:16 usr/share/doc/
+drwxr-xr-x root/root         0 2026-04-16 13:16 usr/share/doc/boost-1.87.0/
+-rwxr-xr-x root/root      1338 2025-04-25 09:29 usr/share/doc/boost-1.87.0/copyright
