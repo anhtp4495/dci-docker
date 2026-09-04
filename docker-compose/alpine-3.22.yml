@@ -7,6 +7,7 @@ services:
     volumes:
       #- /mnt/i/work/Issues/18990/Cpp/:/otx-rt
       - /mnt/d/Workspace/Products/OpenTestSystem/src/Cpp/:/otx-rt
+      - /mnt/d/Workspace/Products/otx4dci/worker-cpp/:/worker-cpp
       - ../.build/alpine-3.22/otx-rt:/build/otx-rt
       - ../.output/alpine-3.22/include/:/build/include
       - ../.output/alpine-3.22/bin/:/build/bin
@@ -29,6 +30,7 @@ services:
         cmake -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_CXX_STANDARD=$$BUILD_CXX_STANDARD \
+            -DCMAKE_CXX_FLAGS="-Dstat64=stat -Dfstat64=fstat" \
             -DCMAKE_TOOLCHAIN_FILE=/toolchain.cmake \
             -DUSE_DIAGMANAGER=OFF \
             -DOtxDiagManagerSourceDir=/build/otx-diagmanager/lib \
@@ -42,14 +44,16 @@ services:
             -DPoco_ROOT=$$POCO_ROOT \
             -Dabsl_DIR=$$ABSEIL_ROOT/lib/cmake/absl \
             -DProtobuf_ROOT=$$PROTOBUF_ROOT \
+            -DgRPC_DIR=$$GRPC_ROOT/lib/cmake/grpc \
             -DOPENSSL_ROOT_DIR=$$OPENSSL_ROOT \
             -DLUA_ROOT=$$LUA_ROOT \
             -DXercesC_ROOT=$$XERCESC_ROOT \
             -DXQilla_ROOT=$$XQILLA_ROOT \
             -DRAPIDJSON_ROOT=$$RAPIDJSON_ROOT \
             -DJSONCONS_ROOT=$$JSONCONS_ROOT \
-            -DBUILD_EXTERNAL_PROJECT_PATH=/mnt/d/Workspace/Products/otx4dci/worker-cpp \
+            -DBUILD_EXTERNAL_PROJECT_PATH=/worker-cpp \
             /otx-rt &&
+        make help &&
         make -j8 &&
         cp -a /build/otx-rt/bin/. /build/bin/ &&
         cp -a /build/otx-rt/bin/include/. /build/include/
