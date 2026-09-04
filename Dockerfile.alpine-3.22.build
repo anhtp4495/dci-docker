@@ -210,7 +210,51 @@ RUN echo    "===================================================================
 	&& make install \
 	&& ln -s "$OPENSSL_ROOT/lib64" "$OPENSSL_ROOT/lib" \
 	&& rm -rf /sources/openssl
-	
+
+WORKDIR /sources
+RUN echo    "============================================================================ " \
+	&& echo "========================= Cloning grpc ======================================= " \
+	&& echo "============================================================================ " \
+	&& git clone \
+	   --depth 1 \
+	   -b v${GRPC_VERSION} \
+	   --recurse-submodules \
+	   https://github.com/grpc/grpc.git
+
+WORKDIR /sources
+RUN echo    "============================================================================ " \
+	&& echo "========================= Building grpc ===================================== " \
+	&& echo "============================================================================ " \
+	&& mkdir -p grpc/build \
+	&& cd grpc/build \
+	&& cmake -G "Unix Makefiles" \
+	   -DCMAKE_BUILD_TYPE=Release \
+	   -DCMAKE_CXX_STANDARD=$BUILD_CXX_STANDARD \
+	   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+	   -DBUILD_SHARED_LIBS=OFF \
+	   -DgRPC_INSTALL=ON \
+	   -DgRPC_BUILD_TESTS=OFF \
+	   -DgRPC_BUILD_CSHARP_EXT=OFF \
+	   -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
+	   -DgRPC_BUILD_CODEGEN=ON \
+	   -DgRPC_ABSL_PROVIDER=package \
+	   -DgRPC_PROTOBUF_PROVIDER=package \
+	   -DgRPC_SSL_PROVIDER=package \
+	   -DgRPC_ZLIB_PROVIDER=module \
+	   -DgRPC_CARES_PROVIDER=module \
+	   -DgRPC_RE2_PROVIDER=module \
+	   -DRE2_BUILD_TESTING=OFF \
+	   -Dabsl_DIR=$ABSEIL_ROOT/lib/cmake/absl \
+	   -DProtobuf_DIR=$PROTOBUF_ROOT/lib/cmake/protobuf \
+	   -Dutf8_range_DIR=$PROTOBUF_ROOT/lib/cmake/utf8_range \
+	   -DOPENSSL_ROOT_DIR=$OPENSSL_ROOT \
+	   -DCMAKE_INSTALL_PREFIX=$GRPC_ROOT \
+	   /sources/grpc \
+	&& make -j8 \
+	&& make install \
+	&& ln -s "$GRPC_ROOT/lib64" "$GRPC_ROOT/lib" \
+	&& rm -rf /sources/grpc
+
 WORKDIR /sources
 RUN echo    "============================================================================ " \
 	&& echo "========================= Building boost =================================== " \
@@ -267,6 +311,7 @@ RUN echo    "===================================================================
     && rm -rf /sources/jsoncons
 
 WORKDIR /sources
+COPY scripts/patch-rapidjson.sh /tmp/patch-rapidjson.sh
 RUN echo    "============================================================================ " \
 	&& echo "========================= Building rapidjson =============================== " \
 	&& echo "============================================================================ " \
@@ -274,6 +319,8 @@ RUN echo    "===================================================================
  	   --depth 1 \
  	   -b v${RAPIDJSON_VERSION} \
  	   https://github.com/Tencent/rapidjson.git \
+ 	&& chmod +x /tmp/patch-rapidjson.sh \
+ 	&& /tmp/patch-rapidjson.sh \
  	&& mkdir -p ${RAPIDJSON_ROOT} \
  	&& cp -r /sources/rapidjson/include ${RAPIDJSON_ROOT}/include \
     && rm -rf /sources/rapidjson
@@ -290,50 +337,6 @@ RUN echo    "===================================================================
  	&& mkdir -p ${ASIO_ROOT} \
  	&& cp -r /sources/asio/asio/include ${ASIO_ROOT}/include \
     && rm -rf /sources/asio
-
-WORKDIR /sources
-RUN echo    "============================================================================ " \
-	&& echo "========================= Cloning grpc ======================================= " \
-	&& echo "============================================================================ " \
-	&& git clone \
-	   --depth 1 \
-	   -b v${GRPC_VERSION} \
-	   --recurse-submodules \
-	   https://github.com/grpc/grpc.git
-
-WORKDIR /sources
-RUN echo    "============================================================================ " \
-	&& echo "========================= Building grpc ===================================== " \
-	&& echo "============================================================================ " \
-	&& mkdir -p grpc/build \
-	&& cd grpc/build \
-	&& cmake -G "Unix Makefiles" \
-	   -DCMAKE_BUILD_TYPE=Release \
-	   -DCMAKE_CXX_STANDARD=$BUILD_CXX_STANDARD \
-	   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-	   -DBUILD_SHARED_LIBS=OFF \
-	   -DgRPC_INSTALL=ON \
-	   -DgRPC_BUILD_TESTS=OFF \
-	   -DgRPC_BUILD_CSHARP_EXT=OFF \
-	   -DgRPC_BUILD_GRPC_CPP_PLUGIN=ON \
-	   -DgRPC_BUILD_CODEGEN=ON \
-	   -DgRPC_ABSL_PROVIDER=package \
-	   -DgRPC_PROTOBUF_PROVIDER=package \
-	   -DgRPC_SSL_PROVIDER=package \
-	   -DgRPC_ZLIB_PROVIDER=module \
-	   -DgRPC_CARES_PROVIDER=module \
-	   -DgRPC_RE2_PROVIDER=module \
-	   -DRE2_BUILD_TESTING=OFF \
-	   -Dabsl_DIR=$ABSEIL_ROOT/lib/cmake/absl \
-	   -DProtobuf_DIR=$PROTOBUF_ROOT/lib/cmake/protobuf \
-	   -Dutf8_range_DIR=$PROTOBUF_ROOT/lib/cmake/utf8_range \
-	   -DOPENSSL_ROOT_DIR=$OPENSSL_ROOT \
-	   -DCMAKE_INSTALL_PREFIX=$GRPC_ROOT \
-	   /sources/grpc \
-	&& make -j8 \
-	&& make install \
-	&& ln -s "$GRPC_ROOT/lib64" "$GRPC_ROOT/lib" \
-	&& rm -rf /sources/grpc
 
 WORKDIR /opt
 RUN ls -l

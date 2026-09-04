@@ -5,7 +5,8 @@ services:
     container_name: otx-rt-builder-alpine-3.22
     image: otx-3rd-libs:alpine-3.22
     volumes:
-      - /mnt/i/work/Issues/18990/Cpp/:/otx-rt
+      #- /mnt/i/work/Issues/18990/Cpp/:/otx-rt
+      - /mnt/d/Workspace/Products/OpenTestSystem/src/Cpp/:/otx-rt
       - ../.build/alpine-3.22/otx-rt:/build/otx-rt
       - ../.output/alpine-3.22/include/:/build/include
       - ../.output/alpine-3.22/bin/:/build/bin
@@ -29,6 +30,7 @@ services:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_CXX_STANDARD=$$BUILD_CXX_STANDARD \
             -DCMAKE_TOOLCHAIN_FILE=/toolchain.cmake \
+            -DUSE_DIAGMANAGER=OFF \
             -DOtxDiagManagerSourceDir=/build/otx-diagmanager/lib \
             -DOtxDiagManagerPath=/build/otx-diagmanager/bin \
             -DMCDKERNEL_LIBRARY_DIR=/opt/vw/lib \
@@ -38,6 +40,7 @@ services:
             -DASIO_ROOT=$$ASIO_ROOT \
             -DBOOST_ROOT=$$BOOST_ROOT -DBoost_USE_STATIC_LIBS=ON \
             -DPoco_ROOT=$$POCO_ROOT \
+            -Dabsl_DIR=$$ABSEIL_ROOT/lib/cmake/absl \
             -DProtobuf_ROOT=$$PROTOBUF_ROOT \
             -DOPENSSL_ROOT_DIR=$$OPENSSL_ROOT \
             -DLUA_ROOT=$$LUA_ROOT \
@@ -45,6 +48,7 @@ services:
             -DXQilla_ROOT=$$XQILLA_ROOT \
             -DRAPIDJSON_ROOT=$$RAPIDJSON_ROOT \
             -DJSONCONS_ROOT=$$JSONCONS_ROOT \
+            -DBUILD_EXTERNAL_PROJECT_PATH=/mnt/d/Workspace/Products/otx4dci/worker-cpp \
             /otx-rt &&
         make -j8 &&
         cp -a /build/otx-rt/bin/. /build/bin/ &&
