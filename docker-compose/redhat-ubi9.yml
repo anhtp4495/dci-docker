@@ -46,7 +46,7 @@ services:
             -DRAPIDJSON_ROOT=$$RAPIDJSON_ROOT \
             -DJSONCONS_ROOT=$$JSONCONS_ROOT \
             /otx-rt &&
-        make -j8 &&
+        make OpenTestSystem.Otx.Runtime2.Api.ReferenceApplication.Console -j8 &&
         cp -a /build/otx-rt/bin/. /build/bin/ &&
         cp -a /build/otx-rt/bin/include/. /build/include/
       '
