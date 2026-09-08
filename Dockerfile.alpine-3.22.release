@@ -1,0 +1,16 @@
+# Packages the pre-built OTX C++ worker binary on top of a bare alpine
+# base image (only needs the shared libs the binary dynamically links
+# against: libstdc++/libgcc — the rest is statically linked in).
+# Build from the repo root:
+#   docker build -f Dockerfile.alpine-3.22.release -t otx/worker:latest .
+FROM alpine:3.22
+
+RUN apk add --no-cache libstdc++
+
+WORKDIR /app
+COPY .build/alpine-3.22/otx-rt/bin/OpenTestSystem.Otx.Runtime2.Worker ./
+RUN chmod +x OpenTestSystem.Otx.Runtime2.Worker
+
+ENV WORKER_GRPC_PORT=8899
+EXPOSE 8899
+ENTRYPOINT ["./OpenTestSystem.Otx.Runtime2.Worker"]
