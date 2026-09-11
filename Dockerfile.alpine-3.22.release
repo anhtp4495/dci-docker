@@ -3,14 +3,29 @@
 # against: libstdc++/libgcc — the rest is statically linked in).
 # Build from the repo root:
 #   docker build -f Dockerfile.alpine-3.22.release -t otx/worker:latest .
+#
+# For a debug build (gdb + core dumps enabled, for analyzing a crash), pass
+# DEBUG_TOOLS=true and BUILD_DIR=alpine-3.22-debug to pick up the
+# RelWithDebInfo binary from the builder-alpine-3.22-debug compose service
+# (see docker-compose/alpine-3.22.yml) instead of the plain Release one --
+# a Release binary has no debug symbols, so gdb would only show addresses:
+#   docker build -f Dockerfile.alpine-3.22.release -t otx/worker:debug --build-arg DEBUG_TOOLS=true --build-arg BUILD_DIR=alpine-3.22-debug .
 FROM alpine:3.22
 
-RUN apk add --no-cache libstdc++
+ARG DEBUG_TOOLS=false
+RUN apk add --no-cache libstdc++ $( [ "$DEBUG_TOOLS" = "true" ] && echo gdb )
 
+ARG BUILD_DIR=alpine-3.22
 WORKDIR /app
-COPY .build/alpine-3.22/otx-rt/bin/OpenTestSystem.Otx.Runtime2.Worker ./
+COPY .build/${BUILD_DIR}/otx-rt/bin/OpenTestSystem.Otx.Runtime2.Worker ./
 RUN chmod +x OpenTestSystem.Otx.Runtime2.Worker
 
 ENV WORKER_GRPC_PORT=8899
 EXPOSE 8899
-ENTRYPOINT ["./OpenTestSystem.Otx.Runtime2.Worker"]
+# ulimit -c unlimited is harmless either way (core dumps just need
+# core_pattern on the node set to a plain file path, not a pipe, to
+# actually land anywhere) so it's always on rather than gated by
+# DEBUG_TOOLS -- exec form ENTRYPOINT can't run shell builtins, so this
+# uses shell form (exec avoids adding a shell layer in the process tree so
+# signals still reach the worker directly).
+ENTRYPOINT ["/bin/sh", "-c", "ulimit -c unlimited && exec ./OpenTestSystem.Otx.Runtime2.Worker"]
